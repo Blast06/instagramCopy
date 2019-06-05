@@ -17,16 +17,21 @@ class ProfilesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['index']]);
     }
 
-    //
+
     public function index(User $user)
     {
+        // si el usuario esta logueado, manda si contiene el usuario mostrado en el perfil
+        // de lo contrario, manda false
+        $follows = (auth()->user()) ? auth()->user()->following->contains($user->id) : false;
 
-
-        return view('profiles.index', compact("user"));
+//        dd($follows);
+        return view('profiles.index', compact("user", 'follows'));
     }
+
+
 
     public function edit(User $user)
     {
@@ -34,35 +39,24 @@ class ProfilesController extends Controller
         return view('profiles.edit',compact('user'));
     }
 
+
+
     public function update(UpdateProfileRequest $request)
     {
-
 //        authorizing to update
         $this->authorize('update', $request->user()->profile);
 
         if ($request->has('image')){
-
-            // TODO: REFACTOR PROCESS OF UPLOADING AND RESIZING IMAGE HERE AND AND POSTSCONTROLLER
-
-            //primero subo la imagen , despues con intervention le hago un fit
-            //para que asi despues  pueda aplicar el efecto rounded circle, luego
-            // la agrego al array merge para el update.
-            $imagePath = request('image')->store('profilepic', 'public');
-            $image = Image::make(public_path("storage/{$imagePath}"))->fit(1000,1000);
-            $image->save();
-
-
-            $image = $imagePath;
+            $image = UploadFileHelper::uploadFile('image','profilepic', 1000, 1000);
             $imageArr = [ 'image' => $image];
-
         }
 
         auth()->user()->profile()->update(array_merge(
             $request->validated(),
             $imageArr ?? []
+
         ));
 
         return redirect("/profile/{$request->user()->username}");
-
     }
 }

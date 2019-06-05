@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\UploadFileHelper;
 use App\Http\Requests\AddPostRequest;
 use App\Post;
 use Illuminate\Http\Request;
@@ -24,9 +25,9 @@ class PostsController extends Controller
     public function store(AddPostRequest $request)
     {
 
-        $imagePath = request('image')->store('uploads', 'public');
-        $image = Image::make(public_path("storage/{$imagePath}"))->fit(1200,1200);
-        $image->save();
+        // Helper queguarda la imaen(en este caso en el storage de la app), le retorna el
+        // path para despues agregarlo a la bd en su campo 'image'
+         $imagePath = UploadFileHelper::uploadFile('image', 'uploads', 1200, 1200);
 
         //crea el post
         auth()->user()->posts()->create([
@@ -34,7 +35,7 @@ class PostsController extends Controller
             'image' => $imagePath,
         ]);
 
-        return redirect('/profile/'. auth()->user()->id);
+        return redirect('/profile/'. auth()->user()->username);
 
 
     }
