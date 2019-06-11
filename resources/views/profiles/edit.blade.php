@@ -51,7 +51,7 @@
                                name="url"
                                type="text"
                                class="form-control @error('url') is-invalid @enderror"
-                               value="{{ old('url') ?? $user->profile->url }}" required autocomplete="url" autofocus>
+                               value="{{ old('url') ?? $user->profile->url }}" autocomplete="url" autofocus>
 
                         @error('url')
                         <span class="invalid-feedback" role="alert">

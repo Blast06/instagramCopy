@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Profile extends Model
 {
@@ -20,9 +21,10 @@ class Profile extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public function profileImage()
+    public function getUrlPathAttribute()
     {
-        return $this->image;
+        $imagePath = ($this->image) ? Storage::url($this->image) : '/placeholders/placeholder_user.png';
+        return $imagePath;
     }
 
 

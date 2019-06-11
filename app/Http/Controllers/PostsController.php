@@ -17,8 +17,18 @@ class PostsController extends Controller
         $this->middleware('auth');
     }
 
+    // retornar la lista de posts  de usuarios que sigue el user autenticado y
+    // mostrarlos en orden cronologico
+    public function index()
+    {
+        // trae todos los users que estan en la tabla 'profiles' => profiles.user_id
+        $users = auth()->user()->following()->pluck('profiles.user_id');
+
+
+    }
+
     public function create()
-    { //{}
+    {
         return view('posts.create');
     }
 

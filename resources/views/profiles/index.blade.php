@@ -5,8 +5,10 @@
     <div class="row  mr-5">
         <div class="col-3 p-5">
 
-                <img src="{{ asset('storage'). '/'. $user->profile->image}}"
-                     alt="profile_pic" class="rounded-circle w-100">
+
+            <img src="{{ $user->profile->url_path }}"
+                 alt="profile_pic" class="rounded-circle w-100">
+
 
         </div>
         <div class="col-9 pt-5">
@@ -14,7 +16,7 @@
                <div class="d-flex align-items-center pb-3">
                    <div class="h4">{{ $user->username }}</div>
 
-                   {{--con esto el boton no aparece en tu perfil--}}
+                   {{--con esta validacion, el boton de editar no aparece en tu perfil--}}
                     @cannot('update', $user->profile)
                     <follow-component user-id="{{  $user->username }}" follows="{{ $follows }}"></follow-component>
                     @endcan
