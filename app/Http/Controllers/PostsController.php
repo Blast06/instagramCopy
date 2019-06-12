@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\UploadFileHelper;
 use App\Http\Requests\AddPostRequest;
 use App\Post;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Intervention\Image\Facades\Image;
@@ -23,7 +24,11 @@ class PostsController extends Controller
     {
         // trae todos los users que estan en la tabla 'profiles' => profiles.user_id
         $users = auth()->user()->following()->pluck('profiles.user_id');
+        $posts = Post::whereIn('user_id', $users)->with('user')->latest()->paginate(2);
 
+
+
+        return view('posts.index', compact('posts'));
 
     }
 

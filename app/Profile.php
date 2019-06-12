@@ -21,6 +21,7 @@ class Profile extends Model
         return $this->belongsToMany(User::class);
     }
 
+    // muestra la imagen de perfil o imagen por defecto
     public function getUrlPathAttribute()
     {
         $imagePath = ($this->image) ? Storage::url($this->image) : '/placeholders/placeholder_user.png';

@@ -31,13 +31,13 @@
                     <a class="btn btn-primary" href="/profile/{{ $user->username }}/edit">Edit profile</a>
                 @endcan
 
-                <div class="pr-3"><strong>{{ $user->posts->count() }} </strong>posts</div>
-                <div class="pr-3"><strong>40k </strong>followers</div>
-                <div class="pr-3"><strong>200 </strong>following</div>
+                <div class="pr-3"><strong> {{ $postsCount }} </strong>posts</div>
+                <div class="pr-3"><strong> {{ $followersCount }} </strong>followers</div>
+                <div class="pr-3"><strong> {{ $followingCount  }} </strong>following</div>
             </div>
             <div class="pt-4 font-weight-bold">{{ $user->profile->title }}</div>
             <div>{{ $user->profile->description }}</div>
-            <div><a href="#">{{ $user->profile->url }}</a></div>
+            <div><a href="{{ $user->profile->url }}">{{ $user->profile->url }}</a></div>
         </div>
     </div>
 

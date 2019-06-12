@@ -7,9 +7,11 @@ use App\Http\Requests\UpdateProfileRequest;
 use App\Profile;
 use App\User;
 
+use function foo\func;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Facades\Image;
 use Symfony\Component\Console\Helper\Helper;
 
@@ -23,12 +25,28 @@ class ProfilesController extends Controller
 
     public function index(User $user)
     {
+
+        $postsCount = Cache::remember('count.posts' . $user->id,
+            now()->addSeconds(30), function () use ($user){
+            return $user->posts->count();
+        });
+
+        $followersCount = Cache::remember('count.followers' . $user->id,
+            now()->addSeconds(30), function () use ($user){
+                return $user->profile->followers->count();
+            });
+
+        $followingCount = Cache::remember('count.following' . $user->id,
+            now()->addSeconds(30), function () use ($user){
+                return $user->following->count();
+            });
+
         // si el usuario esta logueado, manda si contiene el usuario mostrado en el perfil
         // de lo contrario, manda false
         $follows = (auth()->user()) ? auth()->user()->following->contains($user->id) : false;
 
-//        dd($follows);
-        return view('profiles.index', compact("user", 'follows'));
+
+        return view('profiles.index', compact("user", 'follows', 'followersCount', 'followingCount','postsCount'));
     }
 
 
