@@ -24,6 +24,7 @@ class Profile extends Model
     // muestra la imagen de perfil o imagen por defecto
     public function getUrlPathAttribute()
     {
+        // con esto, si hay imagen, manda la imagen, de lo contrario, manda el placeholder.
         $imagePath = ($this->image) ? Storage::url($this->image) : '/placeholders/placeholder_user.png';
         return $imagePath;
     }

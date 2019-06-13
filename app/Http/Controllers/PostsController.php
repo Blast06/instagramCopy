@@ -40,7 +40,7 @@ class PostsController extends Controller
     public function store(AddPostRequest $request)
     {
 
-        // Helper queguarda la imaen(en este caso en el storage de la app), le retorna el
+        // Helper que guarda la imaen(en este caso en el storage de la app), le retorna el
         // path para despues agregarlo a la bd en su campo 'image'
          $imagePath = UploadFileHelper::uploadFile('image', 'uploads', 1200, 1200);
 
