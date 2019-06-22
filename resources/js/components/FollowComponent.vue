@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button class="btn btn-primary ml-4" @click="followUser()" v-text="buttonText"></button>
+        <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" @click="followUser()" v-text="buttonText"></button>
     </div>
 </template>
 

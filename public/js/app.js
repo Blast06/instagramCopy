@@ -19435,7 +19435,8 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("button", {
-      staticClass: "btn btn-primary ml-4",
+      staticClass:
+        "bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded",
       domProps: { textContent: _vm._s(_vm.buttonText) },
       on: {
         click: function($event) {
